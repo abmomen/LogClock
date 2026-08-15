@@ -14,7 +14,11 @@ struct TinyTimerApp: App {
         MenuBarExtra {
             TimerView(viewModel: viewModel)
         } label: {
-            Text(viewModel.menuBarTime)
+            
+            Text(viewModel.displayTime)
+                .monospacedDigit()
+                .foregroundStyle(.primary)
+                .contentTransition(.numericText())
         }
         .menuBarExtraStyle(.window)
     }
