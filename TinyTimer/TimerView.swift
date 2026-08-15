@@ -15,18 +15,20 @@ struct TimerView: View {
     @State private var isCopied = false
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
 
             // MARK: - Timer Display
+
             Text(viewModel.menuBarTime)
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(.primary)
                 .contentTransition(.numericText())
                 .animation(.snappy, value: viewModel.elapsed)
-                .padding(.top, 12)
-            
-                
+                .padding(.top, 16)
+                .padding(.bottom, 16)
+
+            Divider()
 
             // MARK: - Timer Controls
 
@@ -69,25 +71,28 @@ struct TimerView: View {
                 }
                 .keyboardShortcut("q")
             }
+            .padding(.vertical, 12)
 
-            VStack(spacing: 8) {
-                Divider()
+            Divider()
 
-                // MARK: - Settings
+            // MARK: - Settings
 
-                HStack {
-                    Toggle(
-                        "Resets on copy",
-                        isOn: $resetOnCopy
-                    )
-                    .toggleStyle(.checkbox)
-                    .controlSize(.small)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.secondary)
-                }
+            HStack {
+                Toggle(
+                    "Resets on copy",
+                    isOn: $resetOnCopy
+                )
+                .toggleStyle(.checkbox)
+                .controlSize(.small)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+
+                Spacer()
             }
-            .padding(.bottom, 12)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
         }
+        .frame(width: 220)
         .background(.regularMaterial)
     }
 
