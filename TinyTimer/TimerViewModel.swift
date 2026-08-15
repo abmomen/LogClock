@@ -22,6 +22,15 @@ final class TimerViewModel: ObservableObject {
     private let clipboardService: ClipboardServiceProtocol
     private let screenLockMonitor: ScreenLockMonitoring
 
+    // MARK: - Settings
+
+    /// Mirrors the "Auto-pause when locked" toggle in TimerView.
+    /// Read fresh from UserDefaults each time a lock/unlock event fires,
+    /// so the setting takes effect immediately without needing a binding.
+    private var autoPauseOnLock: Bool {
+        UserDefaults.standard.object(forKey: "autoPauseOnLock") as? Bool ?? true
+    }
+
     // MARK: - Private State
 
     private var wasRunningBeforeLock = false
@@ -86,6 +95,7 @@ final class TimerViewModel: ObservableObject {
 
         if reset {
             timerService.reset()
+            timerService.start()
         }
     }
 
@@ -116,6 +126,10 @@ final class TimerViewModel: ObservableObject {
     }
 
     private func handleScreenLocked() {
+        guard autoPauseOnLock else {
+            return
+        }
+
         wasRunningBeforeLock = isRunning
 
         guard wasRunningBeforeLock else {
