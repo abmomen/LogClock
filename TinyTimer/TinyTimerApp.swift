@@ -2,16 +2,20 @@
 //  TinyTimerApp.swift
 //  TinyTimer
 //
-//  Created by Abdul Momen on 14/8/26.
-//
 
 import SwiftUI
 
 @main
 struct TinyTimerApp: App {
+
+    @StateObject private var viewModel = TimerViewModel()
+
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        MenuBarExtra {
+            TimerView(viewModel: viewModel)
+        } label: {
+            Text(viewModel.menuBarTime)
         }
+        .menuBarExtraStyle(.window)
     }
 }
