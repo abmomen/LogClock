@@ -10,10 +10,10 @@ struct TimerView: View {
     @ObservedObject var viewModel: TimerViewModel
     
     @AppStorage("resetOnCopy")
-    private var resetOnCopy = true
+    private var resetOnCopy = false
     
     @AppStorage("autoPauseOnLock")
-    private var autoPauseOnLock = true
+    private var autoPauseOnLock = false
     
     @State private var isCopied = false
     
@@ -94,7 +94,7 @@ struct TimerView: View {
                 }
                 
                 HStack {
-                    Text("Pause on locked")
+                    Text("Pause when locked")
                         .font(.system(size: 13))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
