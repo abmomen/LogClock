@@ -35,13 +35,13 @@ enum TimeFormatter {
     // MARK: - Jira
 
     static func jira(_ interval: TimeInterval) -> String {
-        var remaining = max(0, Int(interval))
+        let totalSeconds = max(0, Int(interval))
 
-        let hours = remaining / 3600
-        remaining %= 3600
+        let hours = totalSeconds / 3600
+        let remainingSeconds = totalSeconds % 3600
 
-        let minutes = remaining / 60
-        let seconds = remaining % 60
+        let minutes = remainingSeconds / 60
+        let seconds = remainingSeconds % 60
 
         var components: [String] = []
 
@@ -49,16 +49,20 @@ enum TimeFormatter {
             components.append("\(hours)h")
         }
 
-        if minutes > 0 {
-            components.append("\(minutes)m")
-        }
+        let totalMinutes = Double(minutes) + Double(seconds) / 60.0
 
-        if seconds > 0 {
-            components.append("\(seconds)s")
+        if totalMinutes > 0 {
+            let formattedMinutes = String(
+                format: "%.2f",
+                totalMinutes
+            )
+            .replacingOccurrences(of: #"\.?0+$"#, with: "", options: .regularExpression)
+
+            components.append("\(formattedMinutes)m")
         }
 
         return components.isEmpty
-            ? "0s"
+            ? "0m"
             : components.joined(separator: " ")
     }
 }
